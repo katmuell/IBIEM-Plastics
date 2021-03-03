@@ -28,6 +28,7 @@ map.file = file.path(data.dir, "200114_McCumber_16SFW_AS_200110_corrected_final.
 barcode.fastq = file.path(data.dir, "Undetermined_S0_L001_I1_001.fastq.gz")
 r1.fastq = file.path(data.dir, "Undetermined_S0_L001_R1_001.fastq.gz")
 r2.fastq = file.path(data.dir, "Undetermined_S0_L001_R2_001.fastq.gz")
+barcode.table = file.path(output.dir, "barcode.table")
 rc.barcode.table = file.path(output.dir, "rc.barcode.table")
 
 #Set bash variables
@@ -38,7 +39,7 @@ Sys.setenv(RAW_FASTQ_DIR = data.dir)
 Sys.setenv(R1_FASTQ = r1.fastq)
 Sys.setenv(R2_FASTQ = r2.fastq)
 Sys.setenv(BARCODE_FASTQ = barcode.fastq)
-Sys.setenv(BARCODE_TABLE = "blank")
+Sys.setenv(BARCODE_TABLE = barcode.table)
 Sys.setenv(RC_BARCODE_TABLE = rc.barcode.table)
 ```
 
@@ -83,8 +84,11 @@ read_tsv(map.file, comment = "#q2") %>%
   as.data.frame() %>%
   rownames_to_column %>%
   write_delim(rc.barcode.table, delim = "\t", col_names = FALSE)
+```
 
-
+```{bash}
+set -u
+head $RC_BARCODE_TABLE
 ```
 
 #Clean up the previous demultiplexing effort
