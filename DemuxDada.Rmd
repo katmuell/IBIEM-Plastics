@@ -13,6 +13,7 @@ library(dplyr)
 library(tibble)
 library(Biostrings)
 ```
+##Setup
 # Set up Paths, Directories, and Shell Variables
 ```{r}
 #Directories
@@ -33,6 +34,8 @@ Sys.setenv(MAP_FILE = map.file)
 Sys.setenv(OUT_DIR = output.dir)
 Sys.setenv(DEMUX_DIR = demux.dir)
 Sys.setenv(RAW_FASTQ_DIR = data.dir)
+Sys.setenv(R1_FASTQ = r1.fastq)
+Sys.setenv(R2_FASTQ = r2.fastq)
 Sys.setenv(BARCODE_FASTQ = barcode.fastq)
 Sys.setenv(BARCODE_TABLE = "blank")
 ```
@@ -53,3 +56,17 @@ cut --fields 1,2 $MAP_FILE > $BARCODE_TABLE
 set -u
 head $BARCODE_TABLE
 ```
+
+##Demultiplexing
+#Run fastq-multx
+```{bash}
+set -u
+fastq-multx -m 3 -d 2 -x -B $BARCODE_TABLE \
+  $BARCODE_FASTQ \
+  $R1_FASTQ \
+  $R2_FASTQ \
+  -o $DEMUX_DIR/%_I1.fastq.gz \
+  -o $DEMUX_DIR/%.forward.fastq.gz \
+  -o $DEMUX_DIR/%.reverse.fastq.gz
+```
+
