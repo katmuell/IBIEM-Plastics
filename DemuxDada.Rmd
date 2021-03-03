@@ -70,6 +70,7 @@ fastq-multx -m 3 -d 2 -x -B $BARCODE_TABLE \
   -o $DEMUX_DIR/%.forward.fastq.gz \
   -o $DEMUX_DIR/%.reverse.fastq.gz
 ```
+There were a lot of unmatched samples, so I need to reverse complement the barcodes.
 
 #Reverse Complement Barcodes
 ```{r}
@@ -81,5 +82,12 @@ read_tsv(map.file, comment = "#q2") %>%
   as.data.frame() %>%
   rownames_to_column %>%
   write_delim(rc.barcode.table, delim = "\t", col_names = FALSE)
+
+
 ```
 
+#Clean up the previous demultiplexing effort
+```{r}
+if (dir_exists(demux.dir)) {dir_delete(demux.dir)}
+dir_create(demux.dir)
+```
