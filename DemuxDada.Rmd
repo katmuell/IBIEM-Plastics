@@ -13,3 +13,25 @@ library(dplyr)
 library(tibble)
 library(Biostrings)
 ```
+# Set up Paths, Directories, and Shell Variables
+```{r}
+#Directories
+data.dir = "/data/project_data/argonne_data"
+output.dir = "/home/guest/scratch/Plastics"
+demux.dir = file.path(output.dir, "demux")
+if (dir_exists(demux.dir)) {dir_delete(demux.dir)}
+dir_create(demux.dir)
+
+#Files
+map.file = file.path(data.dir, "200114_McCumber_16SFW_AS_200110_corrected_final.txt")
+barcode.fastq = file.path(data.dir, "Undetermined_S0_L001_I1_001.fastq.gz")
+r1.fastq = file.path(data.dir, "Undetermined_S0_L001_R1_001.fastq.gz")
+r2.fastq = file.path(data.dir, "Undetermined_S0_L001_R2_001.fastq.gz")
+
+#Set bash variables
+Sys.setenv(MAP_FILE = map.file)
+Sys.setenv(OUT_DIR = output.dir)
+Sys.setenv(DEMUX_DIR = demux.dir)
+Sys.setenv(RAW_FASTQ_DIR = data.dir)
+Sys.setenv(BARCODE_FASTQ = barcode.fastq)
+```
