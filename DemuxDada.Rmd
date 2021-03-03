@@ -28,8 +28,9 @@ map.file = file.path(data.dir, "200114_McCumber_16SFW_AS_200110_corrected_final.
 barcode.fastq = file.path(data.dir, "Undetermined_S0_L001_I1_001.fastq.gz")
 r1.fastq = file.path(data.dir, "Undetermined_S0_L001_R1_001.fastq.gz")
 r2.fastq = file.path(data.dir, "Undetermined_S0_L001_R2_001.fastq.gz")
-barcode.table = file.path(output.dir, "barcode.table")
-rc.barcode.table = file.path(output.dir, "rc.barcode.table")
+
+barcode.table = file.path(output.dir, "barcodes_for_fastqmultx.tsv")
+rc.barcode.table = file.path(output.dir, "rc_barcodes_for_fastqmultx.tsv")
 
 #Set bash variables
 Sys.setenv(MAP_FILE = map.file)
@@ -101,6 +102,25 @@ dir_create(demux.dir)
 ```{bash}
 set -u
 fastq-multx -m 3 -d 2 -x -B $RC_BARCODE_TABLE \
+  $BARCODE_FASTQ \
+  $R1_FASTQ \
+  $R2_FASTQ \
+  -o $DEMUX_DIR/%_I1.fastq.gz \
+  -o $DEMUX_DIR/%.forward.fastq.gz \
+  -o $DEMUX_DIR/%.reverse.fastq.gz
+```
+There were even more unmatched samples this time, so I think we should use the first run.
+
+#Clean up the previous demultiplexing effort
+```{r}
+if (dir_exists(demux.dir)) {dir_delete(demux.dir)}
+dir_create(demux.dir)
+```
+
+#Rerun the first demultiplexing attempt
+```{bash}
+set -u
+fastq-multx -m 3 -d 2 -x -B $BARCODE_TABLE \
   $BARCODE_FASTQ \
   $R1_FASTQ \
   $R2_FASTQ \
