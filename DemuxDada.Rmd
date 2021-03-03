@@ -29,6 +29,7 @@ barcode.fastq = file.path(data.dir, "Undetermined_S0_L001_I1_001.fastq.gz")
 r1.fastq = file.path(data.dir, "Undetermined_S0_L001_R1_001.fastq.gz")
 r2.fastq = file.path(data.dir, "Undetermined_S0_L001_R2_001.fastq.gz")
 
+plastic.map = file.path(output.dir, "plastic_metadata.tsv")
 barcode.table = file.path(output.dir, "barcodes_for_fastqmultx.tsv")
 rc.barcode.table = file.path(output.dir, "rc_barcodes_for_fastqmultx.tsv")
 
@@ -42,6 +43,7 @@ Sys.setenv(R2_FASTQ = r2.fastq)
 Sys.setenv(BARCODE_FASTQ = barcode.fastq)
 Sys.setenv(BARCODE_TABLE = barcode.table)
 Sys.setenv(RC_BARCODE_TABLE = rc.barcode.table)
+Sys.setenv(PLASTIC_MAP = plastic.map)
 ```
 
 #Check Data Integrity
@@ -51,10 +53,17 @@ md5sum -c md5_checksum_compressed_fastqs.txt
 ```
 I can see that our metadata file is labeled as having been corrected from the original. Unfortunately, the md5 checksum appears to be searching for the original, so I don't know if we have a way of checking the integrity of the metadata file.
 
+#Filter Map for Our Samples
+```{r}
+read_tsv(map.file) %>%
+  filter(!is.na(Week)) %>%
+  write_delim(plastic.map, delim = "\t", col_names = TRUE)
+```
+
 #Set up Barcode Table
 ```{bash}
 set -u
-cut --fields 1,2 $MAP_FILE > $BARCODE_TABLE
+cut --fields 1,2 $PLASTIC_MAP > $BARCODE_TABLE
 ```
 ```{bash}
 set -u
