@@ -39,6 +39,7 @@ Sys.setenv(R1_FASTQ = r1.fastq)
 Sys.setenv(R2_FASTQ = r2.fastq)
 Sys.setenv(BARCODE_FASTQ = barcode.fastq)
 Sys.setenv(BARCODE_TABLE = "blank")
+Sys.setenv(RC_BARCODE_TABLE = rc.barcode.table)
 ```
 
 #Check Data Integrity
@@ -90,4 +91,16 @@ read_tsv(map.file, comment = "#q2") %>%
 ```{r}
 if (dir_exists(demux.dir)) {dir_delete(demux.dir)}
 dir_create(demux.dir)
+```
+
+#Run Demux with Reverse Complement Barcodes
+```{bash}
+set -u
+fastq-multx -m 3 -d 2 -x -B $RC_BARCODE_TABLE \
+  $BARCODE_FASTQ \
+  $R1_FASTQ \
+  $R2_FASTQ \
+  -o $DEMUX_DIR/%_I1.fastq.gz \
+  -o $DEMUX_DIR/%.forward.fastq.gz \
+  -o $DEMUX_DIR/%.reverse.fastq.gz
 ```
