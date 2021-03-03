@@ -35,3 +35,10 @@ Sys.setenv(DEMUX_DIR = demux.dir)
 Sys.setenv(RAW_FASTQ_DIR = data.dir)
 Sys.setenv(BARCODE_FASTQ = barcode.fastq)
 ```
+
+#Check Data Integrity
+```{bash}
+cd $RAW_FASTQ_DIR
+md5sum -c md5_checksum_compressed_fastqs.txt
+```
+I can see that our metadata file is labeled as having been corrected from the original. Unfortunately, the md5 checksum appears to be searching for the original, so I don't know if we have a way of checking the integrity of the metadata file.
