@@ -39,6 +39,9 @@ plastic.map = file.path(output.dir, "plastic_metadata.tsv")
 barcode.table = file.path(output.dir, "barcodes_for_fastqmultx.tsv")
 rc.barcode.table = file.path(output.dir, "rc_barcodes_for_fastqmultx.tsv")
 
+silva.ref = "/data/references/dada/silva_nr_v132_train_set.fa.gz"
+silva.species.ref = "/data/references/dada/silva_species_assignment_v132.fa.gz"
+
 #Set bash variables
 Sys.setenv(MAP_FILE = map.file)
 Sys.setenv(OUT_DIR = output.dir)
