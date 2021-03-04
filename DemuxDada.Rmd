@@ -237,3 +237,12 @@ dadaRs <- dada(derepRs, err=errR, multithread = TRUE)
 ```{r}
 dadaFs[[2]]
 ```
+
+#Merge Paired Reads
+```{r}
+mergers <- mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose = TRUE)
+```
+
+```{r}
+head(mergers[[2]])
+```
