@@ -147,3 +147,28 @@ fastq-multx -m 3 -d 2 -x -B $BARCODE_TABLE \
   -o $DEMUX_DIR/%.reverse.fastq.gz
 ```
 
+##Filter and Trim
+#Get Lists of Forward and Reverse Reads
+```{r}
+fnFs <- sort(list.files(demux.dir, pattern="_.+.forward.fastq", full.names = TRUE))
+fnRs <- sort(list.files(demux.dir, pattern="_.+.reverse.fastq", full.names = TRUE))
+
+forward_fastq_suffix = ".forward.fastq.gz"
+
+fnFs %>% 
+  basename %>%
+  str_replace(forward_fastq_suffix,"") ->
+  sample.names
+
+sample.names
+```
+```{r}
+print(fnFs)
+```
+```{r}
+print(fnRs)
+```
+```{r}
+print(sample.names)
+```
+
