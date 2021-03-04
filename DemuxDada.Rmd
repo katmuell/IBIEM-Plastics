@@ -12,6 +12,12 @@ library(fs)
 library(dplyr)
 library(tibble)
 library(Biostrings)
+library(dada2)
+library(stringr)
+library(magrittr)
+library(phyloseq)
+library(ggplot2)
+library(tidyr)
 ```
 ##Setup
 # Set up Paths, Directories, and Shell Variables
@@ -137,3 +143,4 @@ fastq-multx -m 3 -d 2 -x -B $BARCODE_TABLE \
   -o $DEMUX_DIR/%.forward.fastq.gz \
   -o $DEMUX_DIR/%.reverse.fastq.gz
 ```
+
