@@ -191,3 +191,10 @@ plotQualityProfile(fnRs[1:2])
 plotQualityProfile(file.path(data.dir, "Undetermined_S0_L001_R2_001.fastq.gz"))
 ```
 Overall, it looks like I can get away with trimming at 10 and 145 for both the forward and reverse reads.
+
+#Assign filepaths for filtered files
+```{r}
+filt_path <- file.path(output.dir, "filtered") # Place filtered files in filtered/ subdirectory
+filtFs <- file.path(filt_path, paste0(sample.names, "_F_filt.fastq.gz"))
+filtRs <- file.path(filt_path, paste0(sample.names, "_R_filt.fastq.gz"))
+```
