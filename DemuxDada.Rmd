@@ -227,3 +227,13 @@ derepRs <- derepFastq(filtRs, verbose = TRUE)
 names(derepFs) <- sample.names
 names(derepRs) <- sample.names
 ```
+
+#Infer Sequence Variants
+```{r}
+dadaFs <- dada(derepFs, err=errF, multithread = TRUE)
+dadaRs <- dada(derepRs, err=errR, multithread = TRUE)
+```
+
+```{r}
+dadaFs[[2]]
+```
