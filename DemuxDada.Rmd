@@ -272,3 +272,43 @@ dim(seqtab.nochim)
 ```{r}
 sum(seqtab.nochim)/sum(seqtab2)
 ```
+
+#Track reads throughout the pipeline
+```{r}
+getN <- function(x) sum(getUniques(x))
+filt.out %>%
+  as_tibble(rownames = "filename") %>%
+  mutate(sample = str_replace(filename, forward_fastq_suffix, "")) %>%
+  select(sample, input = reads.in, filtered = reads.out) ->
+  track
+
+sapply(dadaFs, getN) %>%
+  enframe(name = "sample", value = "denoised") ->
+  denoised
+track %<>% full_join(denoised, by = c("sample"))
+
+sapply(mergers, getN) %>%
+  enframe(name = "sample", value = "merged") ->
+  merged
+track %<>% full_join(merged, by = c("sample"))
+
+rowSums(seqtab2) %>%
+  enframe(name = "sample", value = "tabled") ->
+  tabled
+track %<>% full_join(tabled, by = c("sample"))
+
+rowSums(seqtab.nochim) %>%
+  enframe(name = "sample", value = "nonchim") ->
+  nonchim
+track %<>% full_join(nonchim, by = c("sample"))
+
+track
+```
+
+```{r}
+track %>%
+  gather(key = "stage", value = "counts", -c("sample")) %>%
+  replace_na(list(counts = 0)) %>%
+  mutate(stage=factor(stage, levels = c('input', 'filtered', 'denoised', 'merged', 'tabled', 'nonchim'))) %>%
+  ggplot(mapping = aes(x = stage, y = counts, by = sample, group = sample)) + geom_line(alpha = 0.5) + theme_classic()
+```
