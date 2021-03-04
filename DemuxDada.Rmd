@@ -172,6 +172,7 @@ print(fnRs)
 print(sample.names)
 ```
 
+#Examine Quality Profiles
 ```{r}
 list.files(data.dir)
 ```
