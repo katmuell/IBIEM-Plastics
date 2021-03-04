@@ -172,3 +172,21 @@ print(fnRs)
 print(sample.names)
 ```
 
+```{r}
+list.files(data.dir)
+```
+
+```{r}
+plotQualityProfile(fnFs[1:2])
+```
+```{r}
+plotQualityProfile(file.path(data.dir, "Undetermined_S0_L001_R1_001.fastq.gz"))
+```
+
+```{r}
+plotQualityProfile(fnRs[1:2])
+```
+```{r}
+plotQualityProfile(file.path(data.dir, "Undetermined_S0_L001_R2_001.fastq.gz"))
+```
+Overall, it looks like I can get away with trimming at 10 and 145 for both the forward and reverse reads.
