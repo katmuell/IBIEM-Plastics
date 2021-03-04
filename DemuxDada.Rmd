@@ -228,6 +228,7 @@ names(derepFs) <- sample.names
 names(derepRs) <- sample.names
 ```
 
+##Sample Inference
 #Infer Sequence Variants
 ```{r}
 dadaFs <- dada(derepFs, err=errF, multithread = TRUE)
@@ -245,4 +246,19 @@ mergers <- mergePairs(dadaFs, derepFs, dadaRs, derepRs, verbose = TRUE)
 
 ```{r}
 head(mergers[[2]])
+```
+
+##Further Processing
+#Construct Sequence Table
+```{r}
+seqtab <- makeSequenceTable(mergers)
+dim(seqtab)
+```
+
+```{r}
+table(nchar(getSequences(seqtab)))
+```
+
+```{r}
+seqtab2 <- seqtab[, nchar(colnames(seqtab)) %in% seq(200,256)]
 ```
