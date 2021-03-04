@@ -262,3 +262,13 @@ table(nchar(getSequences(seqtab)))
 ```{r}
 seqtab2 <- seqtab[, nchar(colnames(seqtab)) %in% seq(200,256)]
 ```
+
+#Remove Chimeras
+```{r}
+seqtab.nochim <- removeBimeraDenovo(seqtab2, method = "consensus", multithread = TRUE, verbose = TRUE)
+dim(seqtab.nochim)
+```
+
+```{r}
+sum(seqtab.nochim)/sum(seqtab2)
+```
