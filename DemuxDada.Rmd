@@ -42,6 +42,8 @@ rc.barcode.table = file.path(output.dir, "rc_barcodes_for_fastqmultx.tsv")
 silva.ref = "/data/references/dada/silva_nr_v132_train_set.fa.gz"
 silva.species.ref = "/data/references/dada/silva_species_assignment_v132.fa.gz"
 
+ps.rds = file.path(output.dir, "plastics.rds")
+
 #Set bash variables
 Sys.setenv(MAP_FILE = map.file)
 Sys.setenv(OUT_DIR = output.dir)
@@ -340,4 +342,15 @@ sd = sample_data(metadata.df)
 ps <- phyloseq(otus, sd, tax_table(taxa))
 
 ps
+```
+
+#Save phyloseq object as RDS
+```{r}
+write_rds(ps, ps.rds)
+```
+
+#Confirm that the RDS is usable
+```{r}
+loaded.ps = read_rds(ps.rds)
+print(loaded.ps)
 ```
