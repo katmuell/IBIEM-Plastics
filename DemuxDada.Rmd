@@ -332,3 +332,12 @@ metadata.df = read_tsv(plastic.map, comment = "#q2") %>%
 
 metadata.df
 ```
+
+#Construct Phyloseq Object
+```{r}
+otus = otu_table(seqtab.nochim, taxa_are_rows = FALSE)
+sd = sample_data(metadata.df)
+ps <- phyloseq(otus, sd, tax_table(taxa))
+
+ps
+```
