@@ -354,3 +354,9 @@ write_rds(ps, ps.rds)
 loaded.ps = read_rds(ps.rds)
 print(loaded.ps)
 ```
+
+#Session Info
+```{r}
+sessionInfo()
+```
+
