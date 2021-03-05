@@ -322,3 +322,13 @@ rownames(taxa.print) <- NULL
 head(taxa.print)
 ```
 
+##Make Phyloseq Object
+#Load Metadata
+```{r}
+metadata.df = read_tsv(plastic.map, comment = "#q2") %>%
+  dplyr::rename(Sample = "#SampleID") %>%
+  column_to_rownames("Sample") %>%
+  as.data.frame()
+
+metadata.df
+```
