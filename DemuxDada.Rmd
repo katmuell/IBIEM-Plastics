@@ -312,3 +312,13 @@ track %>%
   mutate(stage=factor(stage, levels = c('input', 'filtered', 'denoised', 'merged', 'tabled', 'nonchim'))) %>%
   ggplot(mapping = aes(x = stage, y = counts, by = sample, group = sample)) + geom_line(alpha = 0.5) + theme_classic()
 ```
+
+#Assign Taxonomy
+```{r}
+taxa <- assignTaxonomy(seqtab.nochim, silva.ref, multithread = TRUE)
+taxa <- addSpecies(taxa, silva.species.ref)
+taxa.print <- taxa
+rownames(taxa.print) <- NULL
+head(taxa.print)
+```
+
